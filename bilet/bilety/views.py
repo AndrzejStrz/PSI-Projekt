@@ -4,6 +4,8 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAdminUser
 
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -28,6 +30,14 @@ class UzytkownikList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        content = {
+            'status': 'Zaloguj się jako Użytkownik'
+        }
+        return Response(content)
 
 
 class UzytkownicyDetale(APIView):
@@ -57,6 +67,15 @@ class UzytkownicyDetale(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+        permission_classes = [IsAdminUser]
+
+        def get(self, request, format=None):
+            content = {
+                'status': 'Zaloguj się jako Admin'
+        }
+            return Response(content)
+
+
 
 class Opcje_BiletuList(APIView):
 
@@ -71,6 +90,15 @@ class Opcje_BiletuList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        content = {
+            'status': 'Zaloguj się jako Użytkownik'
+        }
+        return Response(content)
 
 
 
@@ -101,6 +129,13 @@ class Opcje_BiletuDetale(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+        permission_classes = [IsAdminUser]
+
+        def get(self, request, format=None):
+            content = {
+                'status': 'Zaloguj się jako Admin'
+        }
+            return Response(content)
 
 class PodrozeList(APIView):
 
@@ -115,6 +150,15 @@ class PodrozeList(APIView):
                 serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        content = {
+            'status': 'Zaloguj się jako Użytkownik'
+        }
+        return Response(content)
 
 
 
@@ -145,6 +189,15 @@ class PodrozeDetale(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, format=None):
+        content = {
+            'status': 'Zaloguj się jako Admin'
+        }
+        return Response(content)
+
+
 
 class PociagList(APIView):
 
@@ -159,6 +212,15 @@ class PociagList(APIView):
                 serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        content = {
+            'status': 'Zaloguj się jako Użytkownik'
+        }
+        return Response(content)
 
 
 
@@ -189,6 +251,15 @@ class PociagDetale(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, format=None):
+        content = {
+            'status': 'Zaloguj się jako Admin'
+        }
+        return Response(content)
+
+
 
 class WagonList(APIView):
 
@@ -203,6 +274,15 @@ class WagonList(APIView):
                 serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        content = {
+            'status': 'Zaloguj się jako Użytkownik'
+        }
+        return Response(content)
 
 
 
@@ -233,6 +313,15 @@ class WagonDetale(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, format=None):
+        content = {
+            'status': 'Zaloguj się jako Admin'
+        }
+        return Response(content)
+
+
 
 class MiejsceList(APIView):
 
@@ -247,6 +336,15 @@ class MiejsceList(APIView):
                 serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        content = {
+            'status': 'Zaloguj się jako Użytkownik'
+        }
+        return Response(content)
 
 
 
@@ -277,6 +375,16 @@ class MiejsceDetale(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, format=None):
+        content = {
+            'status': 'Zaloguj się jako Admin'
+        }
+        return Response(content)
+
+
+
 
 class BiletList(APIView):
 
@@ -291,6 +399,15 @@ class BiletList(APIView):
                 serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        content = {
+            'status': 'Zaloguj się jako Użytkownik'
+        }
+        return Response(content)
+
 
 
 
@@ -319,4 +436,13 @@ class BiletyDetale(APIView):
         Bilet = self.get_object(pk)
         Bilet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, format=None):
+        content = {
+            'status': 'Zaloguj się jako Admin'
+        }
+        return Response(content)
 
