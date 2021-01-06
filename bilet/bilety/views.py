@@ -6,15 +6,23 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAdminUser
-
+from rest_framework import generics,mixins
 from django.shortcuts import render
 from django.http import HttpResponse
+
+
 def index (request):
     return HttpResponse("tekst")
 
 # Create your views here.
 
 
+class UzytkownikTworzy(generics.ListCreateAPIView, mixins.ListModelMixin):
+    queryset = Uzytkownik.objects.all()
+    serializer_class = UzytkownikSerializer
+
+    def get(self, request):
+        return self.list(request)
 
 class UzytkownikList(APIView):
 
@@ -31,13 +39,7 @@ class UzytkownikList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, format=None):
-        content = {
-            'status': 'Zaloguj się jako Użytkownik'
-        }
-        return Response(content)
+    #permission_classes = [IsAuthenticated]
 
 
 class UzytkownicyDetale(APIView):
@@ -67,13 +69,17 @@ class UzytkownicyDetale(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-        permission_classes = [IsAdminUser]
+        #permission_classes = [IsAdminUser]
 
-        def get(self, request, format=None):
-            content = {
-                'status': 'Zaloguj się jako Admin'
-        }
-            return Response(content)
+
+
+
+class Opcje_BiletuTworzy(generics.ListCreateAPIView, mixins.ListModelMixin):
+    queryset = Opcje_Biletu.objects.all()
+    serializer_class = Opcje_BiletuSerializer
+
+    def get(self, request):
+        return self.list(request)
 
 
 
@@ -99,6 +105,8 @@ class Opcje_BiletuList(APIView):
             'status': 'Zaloguj się jako Użytkownik'
         }
         return Response(content)
+
+
 
 
 
@@ -137,6 +145,19 @@ class Opcje_BiletuDetale(APIView):
         }
             return Response(content)
 
+
+
+
+class PodrozeTworzy(generics.ListCreateAPIView, mixins.ListModelMixin):
+    queryset = Podroze.objects.all()
+    serializer_class = PodrozeSerializer
+
+    def get(self, request):
+        return self.list(request)
+
+
+
+
 class PodrozeList(APIView):
 
     def get(self, request, format=None):
@@ -159,6 +180,8 @@ class PodrozeList(APIView):
             'status': 'Zaloguj się jako Użytkownik'
         }
         return Response(content)
+
+
 
 
 
@@ -199,6 +222,14 @@ class PodrozeDetale(APIView):
 
 
 
+
+class PociagTworzy(generics.ListCreateAPIView, mixins.ListModelMixin):
+    queryset = Pociag.objects.all()
+    serializer_class = PociagSerializer
+
+    def get(self, request):
+        return self.list(request)
+
 class PociagList(APIView):
 
     def get(self, request, format=None):
@@ -221,6 +252,8 @@ class PociagList(APIView):
             'status': 'Zaloguj się jako Użytkownik'
         }
         return Response(content)
+
+
 
 
 
@@ -261,6 +294,16 @@ class PociagDetale(APIView):
 
 
 
+
+class WagonTworzy(generics.ListCreateAPIView, mixins.ListModelMixin):
+    queryset = Wagon.objects.all()
+    serializer_class = WagonSerializer
+
+    def get(self, request):
+        return self.list(request)
+
+
+
 class WagonList(APIView):
 
     def get(self, request, format=None):
@@ -286,6 +329,8 @@ class WagonList(APIView):
 
 
 
+
+
 class WagonDetale(APIView):
 
     def get_object(self, pk):
@@ -294,10 +339,12 @@ class WagonDetale(APIView):
         except Wagon.DoesNotExist:
             raise Http404
 
+
     def get(self, request, pk, format=None):
         Wagon = self.get_object(pk)
         serializer = WagonSerializer(wagon)
         return Response(serializer.data)
+
 
     def put(self, request, pk, format=None):
         Wagon = self.get_object(pk)
@@ -306,6 +353,7 @@ class WagonDetale(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
     def delete(self, request, pk, format=None):
         Wagon = self.get_object(pk)
@@ -320,6 +368,14 @@ class WagonDetale(APIView):
             'status': 'Zaloguj się jako Admin'
         }
         return Response(content)
+
+
+class MiejsceTworzy(generics.ListCreateAPIView, mixins.ListModelMixin):
+    queryset = Miejsce.objects.all()
+    serializer_class = MiejsceSerializer
+
+    def get(self, request):
+        return self.list(request)
 
 
 
@@ -384,6 +440,13 @@ class MiejsceDetale(APIView):
         return Response(content)
 
 
+
+class BiletTworzy(generics.ListCreateAPIView, mixins.ListModelMixin):
+    queryset = Bilet.objects.all()
+    serializer_class = BiletSerializer
+
+    def get(self, request):
+        return self.list(request)
 
 
 class BiletList(APIView):

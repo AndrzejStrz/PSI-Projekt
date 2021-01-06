@@ -1,7 +1,13 @@
 from rest_framework import serializers
 from .models import Uzytkownik, Opcje_Biletu, Podroze, Pociag, Wagon, Miejsce, Bilet
+from .views import *
+from .models import Uzytkownik as Mail
 
 class UzytkownikSerializer(serializers.ModelSerializer):
+
+    Imie = serializers.SlugRelatedField(many=False, read_only=True,
+                                          slug_field="Maciek")
+
     class Meta:
         model = Uzytkownik
         fields = ['id_Uzytkownik','Imie','Nazwisko','Login','Haslo','Mail']
@@ -81,7 +87,7 @@ class WagonSerializer(serializers.ModelSerializer):
 class MiejsceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Miejsce
-        fields = ['id_Miejsce','Numer_Miejsc','Wagon_id_Wagon']
+        fields = ['id_Miejsce','Numer_Miejsca','Wagon_id_Wagon']
     def Create(self, Validate_data):
         return MiejsceSerializer(**Validate_data)
 
