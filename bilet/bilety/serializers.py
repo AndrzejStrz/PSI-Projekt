@@ -7,7 +7,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['Name','Surname','Login','Password','Mail','Ticket_Ticket']
+        fields = ['pk','url','Name','Surname','Login','Password','Mail','Ticket_Ticket']
 
 
 
@@ -26,7 +26,10 @@ class TravelSerializer(serializers.ModelSerializer):
 
 
 
+
 class TrainSerializer(serializers.ModelSerializer):
+    #Train_Carriage = serializers.HyperlinkedIdentityField(many=True,read_only=True, view_name='Carriage-detail')
+
     class Meta:
         model = Train
         fields = ['Name']
@@ -45,8 +48,9 @@ class SeatsSerializer(serializers.ModelSerializer):
 
 
 class TicketSerializer(serializers.ModelSerializer):
+    #Name = serializers.HyperlinkedIdentityField(many=True,read_only=True, view_name='User-detail')
 
     class Meta:
         model = Ticket
-        fields = ['Train_Ticket', 'Ticket_Options_Ticket','User','Travels_Ticket']
+        fields = ['Train_Ticket', 'Ticket_Options_Ticket','Travels_Ticket','Name']
 

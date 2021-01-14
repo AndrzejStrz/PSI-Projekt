@@ -13,7 +13,7 @@ from django import urls
 class UserTests(APITestCase):
     def post_User_test(self, name):
         url = reverse(views.UserList.name)
-
-        response = self.client.post(url, format='json')
+        data = {'name': name}
+        response = self.client.post(url, data, format='json')
         return response
-# do przeanalizowania
+

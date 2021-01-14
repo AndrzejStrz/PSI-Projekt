@@ -10,6 +10,7 @@ from rest_framework import generics,mixins
 from django.shortcuts import render
 from django.http import HttpResponse
 from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter, FilterSet
+from rest_framework.reverse import reverse
 
 def index (request):
     return HttpResponse("tekst")
@@ -98,3 +99,18 @@ class TicketDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
     name = 'Ticket-detail'
+
+
+class ApiRoot(generics.GenericAPIView):
+    name = 'api-root'
+
+    def get(self, request, *args, **kwargs):
+        return Response({'User': reverse(UserList.name, request=request),
+                         'Ticket_Options': reverse(Ticket_OptionsList.name, request=request),
+                         'Travel': reverse(TravelList.name, request=request),
+                         'Train': reverse(TrainList.name, request=request),
+                         'Carriage': reverse(CarriageList.name, request=request),
+                         'Seats': reverse(SeatsList.name, request=request),
+                         'Ticket': reverse(TicketList.name, request=request),
+
+                         })
