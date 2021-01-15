@@ -12,11 +12,6 @@ from django.http import HttpResponse
 from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter, FilterSet
 from rest_framework.reverse import reverse
 
-def index (request):
-    return HttpResponse("tekst")
-
-# Create your views here.
-
 
 class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()

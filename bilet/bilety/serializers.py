@@ -27,12 +27,12 @@ class TravelSerializer(serializers.ModelSerializer):
 
 
 
-class TrainSerializer(serializers.ModelSerializer):
-    #Train_Carriage = serializers.HyperlinkedIdentityField(many=True,read_only=True, view_name='Carriage-detail')
+class TrainSerializer(serializers.HyperlinkedModelSerializer):
+    Train_Carriage = serializers.HyperlinkedIdentityField(many=True,read_only=True, view_name='Carriage-detail')
 
     class Meta:
         model = Train
-        fields = ['Name']
+        fields = ['Name','Train_Carriage']
 
 
 class CarriageSerializer(serializers.ModelSerializer):
@@ -48,9 +48,10 @@ class SeatsSerializer(serializers.ModelSerializer):
 
 
 class TicketSerializer(serializers.ModelSerializer):
+
     #Name = serializers.HyperlinkedIdentityField(many=True,read_only=True, view_name='User-detail')
 
     class Meta:
         model = Ticket
-        fields = ['Train_Ticket', 'Ticket_Options_Ticket','Travels_Ticket','Name']
+        fields = ['Train_Ticket', 'Ticket_Options_Ticket','Travels_Ticket']
 
