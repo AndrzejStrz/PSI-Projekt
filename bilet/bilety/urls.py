@@ -1,7 +1,5 @@
 from django.urls import path
 from . import views
-from rest_framework import generics
-
 
 urlpatterns = [
 
@@ -27,7 +25,4 @@ urlpatterns = [
     path('Ticket/<int:pk>', views.TicketDetail.as_view(), name=views.TicketDetail.name),
 
     path('', views.ApiRoot.as_view(), name=views.ApiRoot.name),
-
-
-
 ]
