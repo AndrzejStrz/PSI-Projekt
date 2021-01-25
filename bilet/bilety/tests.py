@@ -1,19 +1,17 @@
-from django.test import TestCase
-from rest_framework.test import APITestCase
-from rest_framework.reverse import reverse
-from . import views
-from .models import User
-from rest_framework import status
-from django.utils.http import urlencode
-from django import urls
-
+from .views import *
+from .models import *
+from rest_framework.test import APIClient, APITestCase
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 
 # Create your tests here.
 
-class UserTests(APITestCase):
-    def post_User_test(self, name):
-        url = reverse(views.UserList.name)
-        data = {'name': name}
-        response = self.client.post(url, data, format='json')
-        return response
+class AuthenticatedTest(APITestCase):
+    client_class = APIClient
 
+    def setUp(self):
+        self.surname = 'Kozak'
+        self.user = User.objects.create_user(surname='Kozak', email='kozak@wp.pl',
+                                             password='haslo')
+        Token.objects.create(user=self.user)
+        super(AuthenticatedTest, self).setUp()
