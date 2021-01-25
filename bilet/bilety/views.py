@@ -8,6 +8,9 @@ from rest_framework import permissions
 class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    search_fields = ['Name','Surname']
+    filterset_fields =['Name','Surname']
+    ordering_fields = ['Name','Surname']
     name = 'user-list'
     permission_classes = [permissions.IsAuthenticated]
 
@@ -20,6 +23,9 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 class Ticket_OptionsList(generics.ListCreateAPIView):
     queryset = Ticket_Options.objects.all()
     serializer_class = Ticket_OptionsSerializer
+    search_fields = ['Price','Ticket_Name']
+    filterset_fields =['Price','Ticket_Name']
+    ordering_fields = ['Price','Ticket_Name']
     name = 'ticket_options-list'
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -32,6 +38,9 @@ class Ticket_OptionsDetail(generics.RetrieveUpdateDestroyAPIView):
 class TravelList(generics.ListCreateAPIView):
     queryset = Travel.objects.all()
     serializer_class = TravelSerializer
+    search_fields = ['Track','Date']
+    filterset_fields =['Track','Date']
+    ordering_fields = ['Track','Date']
     name = 'travel-list'
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -44,6 +53,9 @@ class TravelDetail(generics.RetrieveUpdateDestroyAPIView):
 class TrainList(generics.ListCreateAPIView):
     queryset = Train.objects.all()
     serializer_class = TrainSerializer
+    search_fields = ['Name']
+    filterset_fields =['Name']
+    ordering_fields = ['Name']
     name = 'train-list'
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -56,6 +68,9 @@ class TrainDetail(generics.RetrieveUpdateDestroyAPIView):
 class CarriageList(generics.ListCreateAPIView):
     queryset = Carriage.objects.all()
     serializer_class = CarriageSerializer
+    search_fields = ['Number_Of_Seats']
+    filterset_fields =['Number_Of_Seats']
+    ordering_fields = ['Number_Of_Seats']
     name = 'carriage-list'
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -68,6 +83,9 @@ class CarriageDetail(generics.RetrieveUpdateDestroyAPIView):
 class SeatsList(generics.ListCreateAPIView):
     queryset = Seats.objects.all()
     serializer_class = SeatsSerializer
+    search_fields = ['Ticket_Number']
+    filterset_fields =['Ticket_Number']
+    ordering_fields = ['Ticket_Number']
     name = 'seats-list'
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -80,6 +98,9 @@ class SeatsDetail(generics.RetrieveUpdateDestroyAPIView):
 class TicketList(generics.ListCreateAPIView):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
+    search_fields = ['Travels_Ticket']
+    filterset_fields =['Travels_Ticket']
+    ordering_fields = ['Travels_Ticket']
     name = 'ticket-list'
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
