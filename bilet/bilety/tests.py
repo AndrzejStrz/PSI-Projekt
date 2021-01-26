@@ -9,7 +9,6 @@ from django.utils.http import urlencode
 from django import urls
 import datetime
 
-x = datetime.datetime(2020, 5, 17)
 # Create your tests here.
 
 class AuthenticatedTest(APITestCase):
@@ -214,7 +213,7 @@ class TravelTest(AuthenticatedTest):
         assert response.data['count'] == 1
         assert response.data['results'][0]['Track'] == new_travel
 
-    def test_filter_user(self):
+    def test_filter_travel(self):
         new_travel = 'Track'
         new_date = datetime.date(2021, 2, 14)
 
@@ -231,7 +230,7 @@ class TravelTest(AuthenticatedTest):
         assert response.data['count'] == 1
         assert response.data['results'][0]['Track'] == new_travel
 
-    def test_order_User(self):
+    def test_order_travel(self):
         new_travel = 'Track'
         new_date = datetime.date(2021, 2, 14)
 
