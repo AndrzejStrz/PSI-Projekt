@@ -22,7 +22,7 @@ class TravelSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Travel
-        fields = ['Track', 'Date','Travel_Tickets']
+        fields = ['pk','Track', 'Date','Travel_Tickets']
 
 class TrainSerializer(serializers.HyperlinkedModelSerializer):
     Carriages = serializers.HyperlinkedIdentityField(many=True, read_only=True, view_name='carriage-detail')
