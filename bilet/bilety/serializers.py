@@ -15,7 +15,7 @@ class Ticket_OptionsSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Ticket_Options
-        fields = ['Price', 'Ticket_Name', 'Ticket_Options_Ticket']
+        fields = ['pk','Price', 'Ticket_Name', 'Ticket_Options_Ticket']
 
 class TravelSerializer(serializers.HyperlinkedModelSerializer):
     Travel_Tickets = serializers.HyperlinkedIdentityField(many=True, read_only=True, view_name='ticket-detail')

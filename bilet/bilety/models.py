@@ -2,7 +2,7 @@ from django.db import models
 
 class Travel(models.Model):
     Track = models.CharField(max_length=45)
-    Date = models.DateField(null=False)
+    Date = models.DateTimeField(null=False)
 
     def __str__(self):
        return self.Track+ ' '+ str(self.Date)

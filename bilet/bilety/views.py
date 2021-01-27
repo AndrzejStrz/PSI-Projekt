@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.reverse import reverse
 from rest_framework import permissions
+from django_filters import FilterSet, DateTimeFilter,NumberFilter
 
 class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
@@ -35,11 +36,19 @@ class Ticket_OptionsDetail(generics.RetrieveUpdateDestroyAPIView):
     name = 'ticket_options-detail'
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+class TravelListFilter(FilterSet):
+    from_date = DateTimeFilter(field_name='Date', lookup_expr='gte')
+    to_date = DateTimeFilter(field_name='Date', lookup_expr='lte')
+
+    class Meta:
+        model = Travel
+        fields = ['from_date','to_date']
+
 class TravelList(generics.ListCreateAPIView):
     queryset = Travel.objects.all()
     serializer_class = TravelSerializer
     search_fields = ['Track','Date']
-    filterset_fields =['Track','Date']
+    filter_class=TravelListFilter
     ordering_fields = ['Track','Date']
     name = 'travel-list'
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]

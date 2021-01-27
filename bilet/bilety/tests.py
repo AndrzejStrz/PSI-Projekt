@@ -152,98 +152,100 @@ class UserTest(AuthenticatedTest):
         assert response.data['count'] == 1
         assert response.data['results'][0]['Name'] == new_name
 
-class TravelTest(AuthenticatedTest):
+class TicketOptionTest(AuthenticatedTest):
 
-    def post_travel(self, track, date):
-        url = reverse(views.TravelList.name)
-        data = {'Track': track, 'Date': date}
+    def post_ticket(self, price, ticket_name):
+        url = reverse(views.Ticket_OptionsList.name)
+        data = {'Price': price, 'Ticket_Name': ticket_name}
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.user.auth_token.key)
         response = self.client.post(url, data, format='json', REMOTE_USER=self.username)
         return response
 
-    def test_post_end_travel(self):
-        new_travel = 'Track'
-        new_date = datetime.date(2021, 2, 14)
-        response = self.post_travel(new_travel, new_date)
+    def test_post_end_ticket_option(self):
+        new_price = float(14.5)
+        new_ticket_name  = "name"
+        response = self.post_ticket(new_price, new_ticket_name)
 
         assert response.status_code == status.HTTP_201_CREATED
-        assert models.Travel.objects.count() == 1
-        assert models.Travel.objects.get().Track == new_travel
-        assert models.Travel.objects.get().Date == new_date
+        assert models.Ticket_Options.objects.count() == 1
+        assert models.Ticket_Options.objects.get().Price == new_price
+        assert models.Ticket_Options.objects.get().Ticket_Name == new_ticket_name
 
-    def test_delete_travel(self):
-        new_travel = 'Track'
-        new_date = datetime.date(2021, 2, 14)
-        response = self.post_travel(new_travel, new_date)
-        response = self.post_travel(new_travel, new_date)
-        url = urls.reverse(views.TravelDetail.name, None, {response.data['pk']})
+    def test_delete_ticket_option(self):
+        new_price = float(14.5)
+        new_ticket_name = "name"
+        response = self.post_ticket(new_price, new_ticket_name)
+        url = urls.reverse(views.Ticket_OptionsDetail.name, None, {response.data['pk']})
         response = self.client.delete(url)
 
         assert response.status_code == status.HTTP_204_NO_CONTENT
         assert response.data is None
 
-    def test_update_travel(self):
-        new_travel = 'Track'
-        new_date = datetime.date(2021, 2, 14)
-        update = 'Track_Update'
-        response = self.post_travel(new_travel, new_date)
-
-        url = urls.reverse(views.TravelDetail.name, None, {response.data['pk']})
-        data = {'Track': update}
+    def test_update_ticket_option(self):
+        new_price = float(14.5)
+        new_ticket_name = "name"
+        update = 'name1'
+        response = self.post_ticket(new_price, new_ticket_name)
+        url = urls.reverse(views.Ticket_OptionsDetail.name, None, {response.data['pk']})
+        data = {'Ticket_Name': update}
         patch_response = self.client.patch(url, data, format='json')
 
         assert patch_response.status_code == status.HTTP_200_OK
-        assert patch_response.data['Track'] == update
+        assert patch_response.data['Ticket_Name'] == update
 
-    def test_search_travel(self):
-        new_travel = 'Track'
-        new_date = datetime.date(2021, 2, 14)
+    def test_search_ticket_option(self):
+        new_price = float(14.5)
+        new_ticket_name = "name"
 
-        new_travel1 = 'Track1'
-        new_date1 = datetime.date(2022, 2, 14)
+        new_price1 = float(15.3)
+        new_ticket_name1 = "name1"
 
-        response = self.post_travel(new_travel, new_date)
-        response = self.post_travel(new_travel1, new_date1)
+        self.post_ticket(new_price, new_ticket_name)
+        self.post_ticket(new_price1, new_ticket_name1)
 
-        search_data = {'Track': new_travel, 'Date': new_date}
-        url = '{0}?{1}'.format(reverse(views.TravelList.name), urlencode(search_data))
+        search_data = {'Price': new_price, 'Ticket_Name': new_ticket_name}
+        url = '{0}?{1}'.format(reverse(views.Ticket_OptionsList.name), urlencode(search_data))
         response = self.client.get(url, format='json')
 
         assert response.status_code == status.HTTP_200_OK
         assert response.data['count'] == 1
-        assert response.data['results'][0]['Track'] == new_travel
+        assert response.data['results'][0]['Price'] == new_price
+        assert response.data['results'][0]['Ticket_Name'] == new_ticket_name
 
-    def test_filter_travel(self):
-        new_travel = 'Track'
-        new_date = datetime.date(2021, 2, 14)
+    def test_filter_ticket_option(self):
+        new_price = float(14.5)
+        new_ticket_name = "name"
 
-        new_travel1 = 'Track1'
-        new_date1 = datetime.date(2022, 2, 14)
+        new_price1 = float(15.3)
+        new_ticket_name1 = "name1"
 
-        response = self.post_travel(new_travel, new_date)
-        response = self.post_travel(new_travel1, new_date1)
+        self.post_ticket(new_price, new_ticket_name)
+        self.post_ticket(new_price1, new_ticket_name1)
 
-        filter_data = {'Track': new_travel}
-        url = '{0}?{1}'.format(reverse(views.TravelList.name), urlencode(filter_data))
-        response = self.client.get(url, format='json')
-        assert response.status_code == status.HTTP_200_OK
-        assert response.data['count'] == 1
-        assert response.data['results'][0]['Track'] == new_travel
-
-    def test_order_travel(self):
-        new_travel = 'Track'
-        new_date = datetime.date(2021, 2, 14)
-
-        new_travel1 = 'Track1'
-        new_date1 = datetime.date(2022, 2, 14)
-
-        response = self.post_travel(new_travel, new_date)
-        response = self.post_travel(new_travel1, new_date1)
-
-        ordering_address = {'Travel':new_travel, 'Date': new_date}
-        url = '{0}?{1}'.format(reverse(views.TravelList.name), urlencode(ordering_address))
+        filter_data = {'Price': new_price , 'Ticket_Name':new_ticket_name}
+        url = '{0}?{1}'.format(reverse(views.Ticket_OptionsList.name), urlencode(filter_data))
         response = self.client.get(url, format='json')
 
         assert response.status_code == status.HTTP_200_OK
         assert response.data['count'] == 1
-        assert response.data['results'][0]['Track'] == new_travel
+        assert response.data['results'][0]['Price'] == new_price
+        assert response.data['results'][0]['Ticket_Name'] == new_ticket_name
+
+    def test_order_ticket_options(self):
+        new_price = float(14.5)
+        new_ticket_name = "name"
+
+        new_price1 = float(15.3)
+        new_ticket_name1 = "name1"
+
+        self.post_ticket(new_price, new_ticket_name)
+        self.post_ticket(new_price1, new_ticket_name1)
+
+        ordering_address = {'Price': new_price, 'Ticket': new_ticket_name}
+        url = '{0}?{1}'.format(reverse(views.Ticket_OptionsList.name), urlencode(ordering_address))
+        response = self.client.get(url, format='json')
+
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data['count'] == 1
+        assert response.data['results'][0]['Price'] == new_price
+        assert response.data['results'][0]['Ticket_Name'] == new_ticket_name
